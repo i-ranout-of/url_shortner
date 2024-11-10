@@ -7,7 +7,7 @@ const { postUrlSchema } = require("../validators");
 const {CustomError} = require('../utils/errorHandler')
 
 // import response handler
-const {responseHandler} = require('../utils/responseHandler')
+const ResponseHandler  = require("../utils/responseHandler");
 
 
 const getUrl = async(req, res,next) => {
@@ -20,11 +20,11 @@ const getUrl = async(req, res,next) => {
 
 const postUrl = async(req, res,next) => {
     try{
-        const { error } = await postUrlSchema.validate(req.body);
+        const { error } =  postUrlSchema.validate(req.body);
         if (error) {
             throw new CustomError(error.details[0].message, 400);
         }
-        return responseHandler(res, 'hi from post url')
+        return ResponseHandler.created(res, "hi from post url");
     }catch(err){
         next(err)
     }

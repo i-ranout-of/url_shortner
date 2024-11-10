@@ -7,9 +7,8 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// import mongoose from models
-const mongoose = require('./utils/database');
-const Url = require('./models/index');
+// database connection
+require('./utils/database');
 
 // import routes
 const routes = require('./routes/index');
