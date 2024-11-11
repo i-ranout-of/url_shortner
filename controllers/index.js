@@ -1,7 +1,7 @@
 require('dotenv').config()
 
 //import validators
-const { postUrlSchema } = require("../validators");
+const { post_url_validation } = require("../validators");
 
 //import error handler
 const {CustomError} = require('../utils/errorHandler')
@@ -12,7 +12,8 @@ const ResponseHandler  = require("../utils/responseHandler");
 
 const getUrl = async(req, res,next) => {
     try{
-        res.send('hello from get url')
+
+        return ResponseHandler.success(res, "hi from get url");
     }catch(err){
         next(err)
     }
@@ -20,10 +21,8 @@ const getUrl = async(req, res,next) => {
 
 const postUrl = async(req, res,next) => {
     try{
-        const { error } =  postUrlSchema.validate(req.body);
-        if (error) {
-            throw new CustomError(error.details[0].message, 400);
-        }
+        let payload = req.body
+        post_url_validation(payload);
         return ResponseHandler.created(res, "hi from post url");
     }catch(err){
         next(err)
