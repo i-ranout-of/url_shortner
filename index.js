@@ -1,25 +1,24 @@
-require("dotenv").config();
-// Connect to the database
-require("./utils/database");
+// Set up the server
 const express = require("express");
 const app = express();
 
-// Import custom response handlers
+// Set up the database
+require("./utils/db");
+
+// Set up custom response handlers
 const { bindResponse } = require("./utils/response");
+app.use(bindResponse);
 
-
-
-// Use middleware to bind custom response methods to `res`
-app.use(bindResponse); // Bind the response methods globally
-
-// Define routes
+// Set up routes
 const routes = require("./routes");
 app.use("/", routes);
 
-// Custom error handlers
+// Set up error handling
 const { errorHandler } = require("./utils/error");
 app.use(errorHandler);
 
-app.listen(process.env.APP_PORT, () => {
-	console.log(`Server is running on port ${process.env.APP_PORT}`);
+// Start the server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
 });
